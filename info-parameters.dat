@@ -1,0 +1,18 @@
+Sample width:
+32
+Sample height:
+32
+Hidden layer:
+100
+Output layer:
+46
+Dictionary file:
+C:\Users\utente1\Downloads\Handwriting-Recognition-master\Models\Dictionary2
+Model file:
+Models/MLP-1024-100-46
+Imported image:
+C:\Users\utente1\Downloads\Handwriting-Recognition-master\Import\prova.jpg
+Exported image:
+Export/demo-output.png
+Exported text:
+Export/demo-output.txt
