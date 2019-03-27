@@ -18,33 +18,33 @@ import java.io.IOException;
 public class CalculateMetrics {
     private static final int NTABLEROWS = 4;
     private static final int NTABLECOLUMNS = 7;
-    private static int[][] heightScores = new int[NTABLEROWS][NTABLECOLUMNS];
-    private static int NCHARACTERS = 5;
-    private static int NFIRSTLINE = 4;
-    private static int NSECONDLINE = 3;
-    private static int NTHIRDLINE = 3;
-    private static int NFORTHLINE = 4;
-    private static int NFIFTHLINE = 3;
-    private static int NWORDS = 17;
-    private static int NROWS = 5;
-    private static int MaxnRects = 2000;
-    private static int MaxnWords = 100;
-    private static String exportedOutput = "Export/demo-output.txt";
+    private static final int[][] heightScores = new int[NTABLEROWS][NTABLECOLUMNS];
+    private static final int NCHARACTERS = 5;
+    private static final int NFIRSTLINE = 4;
+    private static final int NSECONDLINE = 3;
+    private static final int NTHIRDLINE = 3;
+    private static final int NFORTHLINE = 4;
+    private static final int NFIFTHLINE = 3;
+    private static final int NWORDS = 17;
+    private static final int NROWS = 5;
+    private static final int MAXNRECTS = 2000;
+    private static final int MAXNWORDS = 100;
+    private static final String exportedOutput = "Export/demo-output.txt";
     
-    private static aRect FirstColumn[] = new aRect[NROWS];
-    private static aRect FirstLine[] = new aRect[NFIRSTLINE];
-    private static aRect SecondLine[] = new aRect[NSECONDLINE];
-    private static aRect ThirdLine[] = new aRect[NTHIRDLINE];
-    private static aRect ForthLine[] = new aRect[NFORTHLINE];
-    private static aRect FifthLine[] = new aRect[NFIFTHLINE];
-    private static String TextFirstLine[] = new String[NFIRSTLINE];
-    private static String TextSecondLine[] = new String[NSECONDLINE];
-    private static String TextThirdLine[] = new String[NTHIRDLINE];
-    private static String TextForthLine[] = new String[NFORTHLINE];
-    private static String TextFifthLine[] = new String[NFIFTHLINE];
+    private static final aRect FirstColumn[] = new aRect[NROWS];
+    private static final aRect FirstLine[] = new aRect[NFIRSTLINE];
+    private static final aRect SecondLine[] = new aRect[NSECONDLINE];
+    private static final aRect ThirdLine[] = new aRect[NTHIRDLINE];
+    private static final aRect ForthLine[] = new aRect[NFORTHLINE];
+    private static final aRect FifthLine[] = new aRect[NFIFTHLINE];
+    private static final String TextFirstLine[] = new String[NFIRSTLINE];
+    private static final String TextSecondLine[] = new String[NSECONDLINE];
+    private static final String TextThirdLine[] = new String[NTHIRDLINE];
+    private static final String TextForthLine[] = new String[NFORTHLINE];
+    private static final String TextFifthLine[] = new String[NFIFTHLINE];
     
-    private static aRect Words[] = new aRect[MaxnRects];
-    private static String[] textWords = new String[MaxnWords];
+    private static final aRect Words[] = new aRect[MAXNRECTS];
+    private static final String[] textWords = new String[MAXNWORDS];
     
     private static int nWords = 0;
     private static int avgHeightScore;
@@ -52,7 +52,7 @@ public class CalculateMetrics {
     private static double margin;
     private static double oWidth;
     
-    public static void start(aRect w[], int n, int clas) throws IOException {
+    public static void start(aRect w[], int n, int clas, int InfoGray[][]) throws IOException {
         initializeMatrix();
         clearPoints(w, n);
         orderWordsVertically(Words, textWords, NWORDS+NCHARACTERS);
@@ -61,30 +61,18 @@ public class CalculateMetrics {
         margin = calculateMargin(FirstColumn);
         oWidth = Words[2].x2-Words[2].x1;
         oWidthScore = calculateWidthWords();
-        for(int i=0; i<NCHARACTERS; i++) {
-            System.out.println(i+1 + "° parola: X1 = " + Words[i].x1 + " Y1 = " + Words[i].y1 + " Stringa = " + textWords[i]);
+        /*
+        for(int i=Words[5].x1; i<Words[5].x2; i++) {
+            for(int j=Words[5].y1; j<Words[5].y2; j++) {
+                if(InfoGray[i][j] != 255)
+                    System.out.print(String.format("%3d ", InfoGray[i][j]));
+                else System.out.print("    ");
+            }
+            System.out.println();
         }
-        System.out.println();
-        for(int i=0; i<NFIRSTLINE; i++) {
-            System.out.println(i+1 + "° parola: X1 = " + FirstLine[i].x1 + " Y1 = " + FirstLine[i].y1 + " Stringa = " + TextFirstLine[i]);
-        }
-        System.out.println();
-        for(int i=0; i<NSECONDLINE; i++) {
-            System.out.println(i+1 + "° parola: X1 = " + SecondLine[i].x1 + " Y1 = " + SecondLine[i].y1 + " Stringa = " + TextSecondLine[i]);
-        }
-        System.out.println();
-        for(int i=0; i<NTHIRDLINE; i++) {
-            System.out.println(i+1 + "° parola: X1 = " + ThirdLine[i].x1 + " Y1 = " + ThirdLine[i].y1 + " Stringa = " + TextThirdLine[i]);
-        }
-        System.out.println();
-        for(int i=0; i<NFORTHLINE; i++) {
-            System.out.println(i+1 + "° parola: X1 = " + ForthLine[i].x1 + " Y1 = " + ForthLine[i].y1 + " Stringa = " + TextForthLine[i]);
-        }
-        System.out.println();
-        for(int i=0; i<NFIFTHLINE; i++) {
-            System.out.println(i+1 + "° parola: X1 = " + FifthLine[i].x1 + " Y1 = " + FifthLine[i].y1 + " Stringa = " + TextFifthLine[i]);
-        }
+        */
         printResults();
+        
     }
     
     private static void initializeMatrix() {
@@ -123,7 +111,7 @@ public class CalculateMetrics {
     
     private static int PixelToMm(double d) {
         int dpi = 30; 
-        return (int) Math.round(d/dpi*2.54);
+        return (int) Math.round(d/7.8);
     }
     
     private static double calculateMargin(aRect[] FirstColumn) {
