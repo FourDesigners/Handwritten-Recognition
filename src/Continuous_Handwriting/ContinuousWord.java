@@ -1,11 +1,5 @@
-// Software: Handwriting Recognition Software in Java
-// Author: Hy Truong Son
-// Major: BSc. Computer Science
-// Class: 2013 - 2016
-// Institution: Eotvos Lorand University
-// Email: sonpascal93@gmail.com
-// Website: http://people.inf.elte.hu/hytruongson/
-// Copyright 2015 (c), all rights reserved. Only use for academic purposes.
+// Software: Dysgraphia Diagnosis in Java
+
 
 package Continuous_Handwriting;
 
@@ -69,7 +63,7 @@ public class ContinuousWord {
     protected static String modelFile;
     protected static String importedImage;
     protected static String exportedImage;
-    protected static String exportedOutput;
+    //protected static String exportedOutput;
 
     public static void Init(String infoParametersFileName) throws IOException {
         infoFileName = infoParametersFileName;
@@ -334,7 +328,7 @@ public class ContinuousWord {
         file.readLine();
         exportedImage = file.readLine();
         file.readLine();
-        exportedOutput = file.readLine();
+        //exportedOutput = file.readLine();
         file.close();
         
         System.out.println("Sample width:");
@@ -354,7 +348,7 @@ public class ContinuousWord {
         System.out.println("Exported image:");
         System.out.println(exportedImage);
         System.out.println("Exported text:");
-        System.out.println(exportedOutput);
+        //System.out.println(exportedOutput);
     }
     
 }

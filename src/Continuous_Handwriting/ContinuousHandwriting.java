@@ -1,11 +1,5 @@
-// Software: Handwriting Recognition Software in Java
-// Author: Hy Truong Son
-// Major: BSc. Computer Science
-// Class: 2013 - 2016
-// Institution: Eotvos Lorand University
-// Email: sonpascal93@gmail.com
-// Website: http://people.inf.elte.hu/hytruongson/
-// Copyright 2015 (c), all rights reserved. Only use for academic purposes.
+// Software: Dysgraphia Diagnosis in Java
+
 
 package Continuous_Handwriting;
 
@@ -16,6 +10,8 @@ import javax.imageio.ImageIO;
 
 import LibOCR.*;
 import Metrics.CalculateMetrics;
+import Metrics.LineForHeight;
+import Metrics.WrittenFileException;
 
 public class ContinuousHandwriting {
 
@@ -37,7 +33,6 @@ public class ContinuousHandwriting {
     protected static String modelFile;
     protected static String importedImage;
     protected static String exportedImage;
-    protected static String exportedOutput;
 
     protected static int threshold;
     protected static int width, height;
@@ -364,15 +359,15 @@ public class ContinuousHandwriting {
         }
     }
 
-    public static void WordSegmentation(String OutputName) throws IOException {
+    public static void WordSegmentation() throws IOException {
         int i, j, v, t, k, MinY, distance;
         int x1, y1, x2, y2;
         boolean started, merge;
         String res;
 
-        TextFilePrinter file = new TextFilePrinter();
-        file.Rewrite(OutputName);
-        System.out.println("Results:");
+        //TextFilePrinter file = new TextFilePrinter();
+        //file.Rewrite(OutputName);
+        //System.out.println("Results:");
 
         ContinuousWord.Init(infoFileName);
 
@@ -463,13 +458,13 @@ public class ContinuousHandwriting {
                 }
 
                 if (started) {
-                    file.print(" ");
-                    System.out.print(" ");
+                    //file.print(" ");
+                    //System.out.print(" ");
                 }
                 started = true;
                 res = ContinuousWord.Recognition(InfoGray, x1, y1, x2, y2);
-                file.print(res);
-                System.out.print(res);
+                //file.print(res);
+                //System.out.print(res);
 
                 i = k + 1;
                 Word[nWords] = new aRect();
@@ -481,14 +476,14 @@ public class ContinuousHandwriting {
                 nWords++;
             }
 
-            file.println();
-            System.out.println();
+            //file.println();
+            //System.out.println();
         }
 
-        file.close();
+        //file.close();
     }
 
-    public static void Recognition(BufferedImage image) throws IOException {
+    public static void Recognition(BufferedImage image, String name, String surname, int clas, int sex, String fileName, String export, LineForHeight[] lines) throws IOException, WrittenFileException {
         Input(image);
         System.out.println("[Finish Image Reading]");
 
@@ -497,7 +492,7 @@ public class ContinuousHandwriting {
         System.out.println("[Finish Image Processing]");
 
         LineSegmentation();
-        WordSegmentation(exportedOutput);
+        WordSegmentation();
         
         
 
@@ -542,17 +537,17 @@ public class ContinuousHandwriting {
 
         File file = new File(exportedImage);
         ImageIO.write(image, getType(exportedImage), file);
-        CalculateMetrics.start(Word, nWords, 2);
+        CalculateMetrics.start(Word, nWords, name, surname, clas, sex, InfoGray, fileName, export, lines); 
     }
     
-    public static void Recognition(String infoParametersFileName) throws IOException {
+    public static void Recognition(String infoParametersFileName, String name, String surname, int clas, int sex, String fileName, String export, LineForHeight[] lines) throws IOException, WrittenFileException {
         infoFileName = infoParametersFileName;
         infoParametersReading();
 
         File file = new File(importedImage);
         BufferedImage image = ImageIO.read(file);
 
-        Recognition(image);
+        Recognition(image, name, surname, clas, sex, fileName, export, lines);
     }
 
     private static void infoParametersReading() throws IOException {
@@ -574,9 +569,10 @@ public class ContinuousHandwriting {
         file.readLine();
         exportedImage = file.readLine();
         file.readLine();
-        exportedOutput = file.readLine();
+        //exportedOutput = file.readLine();
         file.close();
         
+        /*
         System.out.println("Sample width:");
         System.out.println(sampleWidth);
         System.out.println("Sample height:");
@@ -589,11 +585,14 @@ public class ContinuousHandwriting {
         System.out.println(dictionaryFile);
         System.out.println("Model file:");
         System.out.println(modelFile);
+        */
         System.out.println("Imported image:");
         System.out.println(importedImage);
         System.out.println("Exported image:");
         System.out.println(exportedImage);
+        /*
         System.out.println("Exported text:");
         System.out.println(exportedOutput);
+        */
     }
 }
