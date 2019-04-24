@@ -37,7 +37,7 @@ public class SeparatedHandwriting {
     protected static String modelFile;
     protected static String importedImage;
     protected static String exportedImage;
-    protected static String exportedOutput;
+    //protected static String exportedOutput;
     
     protected static int width, height;
     protected static int rear, front;
@@ -314,14 +314,16 @@ public class SeparatedHandwriting {
         }
     }
 
-    public static void WordSegmentation(String OutputName) throws IOException {
+    public static void WordSegmentation() throws IOException {
         int i, j, v, t, k, MinY, distance;
         int x1, y1, x2, y2;
         boolean started, merge;
         String res;
-
+        
+        /*
         TextFilePrinter file = new TextFilePrinter();
         file.Rewrite(OutputName);
+        */
         System.out.println("Results:");
 
         SeparatedWord.Init(infoFileName);
@@ -411,15 +413,17 @@ public class SeparatedHandwriting {
                     x2 = Math.max(x2, Line[v].Rect[j].x2);
                     y2 = Math.max(y2, Line[v].Rect[j].y2);
                 }
-
+                
+                /*
                 if (started) {
                     file.print(" ");
                     System.out.print(" ");
                 }
+                */
                 started = true;
 
                 res = SeparatedWord.Recognition(InfoGray, Line[v].Rect, i, k, y1, y2, threshold);
-                file.print(res);
+                //file.print(res);
                 System.out.print(res);
 
                 i = k + 1;
@@ -432,11 +436,11 @@ public class SeparatedHandwriting {
                 nWords++;
             }
 
-            file.println();
+            //file.println();
             System.out.println();
         }
 
-        file.close();
+        //file.close();
     }
 
     public static void Recognition(BufferedImage image) throws IOException {
@@ -447,7 +451,7 @@ public class SeparatedHandwriting {
         System.out.println("[Finish Image Processing]");
 
         LineSegmentation();
-        WordSegmentation(exportedOutput);
+        WordSegmentation();
 
         for (int i = 0; i < nLines; i++) {
             for (int j = 0; j < Line[i].nRects; j++) {
@@ -521,7 +525,7 @@ public class SeparatedHandwriting {
         file.readLine();
         exportedImage = file.readLine();
         file.readLine();
-        exportedOutput = file.readLine();
+        //exportedOutput = file.readLine();
         file.close();
         
         System.out.println("Sample width:");
@@ -541,7 +545,7 @@ public class SeparatedHandwriting {
         System.out.println("Exported image:");
         System.out.println(exportedImage);
         System.out.println("Exported text:");
-        System.out.println(exportedOutput);
+        //System.out.println(exportedOutput);
     }
 
 }
